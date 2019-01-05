@@ -1,15 +1,17 @@
 import datetime
+from collections import OrderedDict
 from typing import List, Set, Dict
 
 import requests
 
+import plotter
 from contribution import Contribution
 from html_parser import ContributionHTMLParser
 
 
 def __group_by_month(conts: Set[Contribution]) -> Dict[datetime.date, int]:
     mapped = map(lambda c: Contribution(datetime.date(c.date.year, c.date.month, 1), c.commits), conts)
-    grouped = {}
+    grouped = OrderedDict()
     for cont in mapped:
         if cont.date in grouped:
             grouped[cont.date] += cont.commits
@@ -36,4 +38,4 @@ def __fetch_all() -> Set[Contribution]:
 if __name__ == '__main__':
     conts = __fetch_all()
     gr = __group_by_month(conts)
-    print(gr)
+    plotter.draw_heatmap(gr)
