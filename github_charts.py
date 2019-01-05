@@ -1,9 +1,21 @@
-from typing import List, Set
+import datetime
+from typing import List, Set, Dict
 
 import requests
 
 from contribution import Contribution
 from html_parser import ContributionHTMLParser
+
+
+def __group_by_month(conts: Set[Contribution]) -> Dict[datetime.date, int]:
+    mapped = map(lambda c: Contribution(datetime.date(c.date.year, c.date.month, 1), c.commits), conts)
+    grouped = {}
+    for cont in mapped:
+        if cont.date in grouped:
+            grouped[cont.date] += cont.commits
+        else:
+            grouped[cont.date] = cont.commits
+    return grouped
 
 
 def __fetch(date: str) -> List[Contribution]:
@@ -22,4 +34,6 @@ def __fetch_all() -> Set[Contribution]:
 
 
 if __name__ == '__main__':
-    __fetch_all()
+    conts = __fetch_all()
+    gr = __group_by_month(conts)
+    print(gr)
