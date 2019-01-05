@@ -7,6 +7,14 @@ import pandas as pd
 import seaborn as sns
 
 
+def draw_line(data: Dict[datetime.date, int]):
+    sns.set()
+    items = dict([(k.year, v) for k, v in data.items()])
+    f, ax = plt.subplots()
+    sns.barplot(x=list(items.keys()), y=list(items.values()), ax=ax)
+    plt.show()
+
+
 def draw_heatmap(data: Dict[datetime.date, int]):
     sns.set()
     items = []
