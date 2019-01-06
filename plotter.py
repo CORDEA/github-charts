@@ -12,9 +12,9 @@ from contribution import Contribution
 def draw_line(data: Dict[datetime.date, int]):
     sns.set()
     items = dict([(k.year, v) for k, v in data.items()])
-    f, ax = plt.subplots()
-    sns.barplot(x=list(items.keys()), y=list(items.values()), ax=ax)
-    plt.show()
+    _, ax = plt.subplots()
+    plot = sns.barplot(x=list(items.keys()), y=list(items.values()), palette='rocket', ax=ax)
+    plot.get_figure().savefig('line.png')
 
 
 def draw_heatmap(data: Dict[datetime.date, int]):
@@ -26,9 +26,9 @@ def draw_heatmap(data: Dict[datetime.date, int]):
     frame = d.pivot('month', 'year', 'commits')
     frame.fillna(0, inplace=True)
     frame = frame.astype(np.int64)
-    f, ax = plt.subplots()
-    sns.heatmap(frame, annot=True, fmt='d', linewidths=.5, ax=ax)
-    plt.show()
+    _, ax = plt.subplots()
+    plot = sns.heatmap(frame, annot=True, fmt='d', linewidths=.5, cmap='Greens', ax=ax)
+    plot.get_figure().savefig('heatmap.png')
 
 
 def draw_stripplot(data: Set[Contribution]):

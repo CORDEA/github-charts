@@ -46,6 +46,6 @@ def __fetch_all() -> Set[Contribution]:
 
 if __name__ == '__main__':
     conts = __fetch_all()
-    gr = __group_by_year(conts)
-    # plotter.draw_heatmap(gr)
-    plotter.draw_line(gr)
+    plotter.draw_heatmap(__group_by_month(conts))
+    plotter.draw_line(__group_by_year(conts))
+    plotter.draw_stripplot(conts)
